@@ -1,0 +1,71 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TrustBadge from '../components/TrustBadge.svelte';
+import CopyButton from '../components/CopyButton.svelte';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  recipe: CollectionEntry<'recipes'>;
+  snippet?: string;
+}
+
+const { recipe, snippet = '' } = Astro.props;
+const { data } = recipe;
+---
+<BaseLayout title={`${data.title} — hookbook.dev`} description={data.description}>
+  <article class="max-w-3xl mx-auto px-6 py-12">
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/recipes/" class="hover:text-gray-900 dark:hover:text-gray-200">Recipes</a>
+      <span> / </span>
+      <a href={`/recipes/${data.category}/`} class="hover:text-gray-900 dark:hover:text-gray-200">{data.category}</a>
+    </nav>
+
+    <h1 class="font-serif text-4xl mb-2">{data.title}</h1>
+    <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">{data.description}</p>
+
+    <div class="flex flex-wrap items-center gap-3 mb-6">
+      <TrustBadge trust={data.trust} client:load />
+      <span class="text-xs text-gray-500">Event: <a href={`/events/${data.event.toLowerCase()}/`} class="underline">{data.event}</a></span>
+      {data.matcher && <span class="text-xs text-gray-500">Matcher: <code>{data.matcher}</code></span>}
+      {data.hook_type && <span class="text-xs text-gray-500">Type: <code>{data.hook_type}</code></span>}
+    </div>
+
+    {snippet && (
+      <div class="relative my-6">
+        <div class="absolute right-2 top-2">
+          <CopyButton text={snippet} client:load />
+        </div>
+        <pre class="overflow-x-auto rounded p-4"><code>{snippet}</code></pre>
+      </div>
+    )}
+
+    <div class="prose prose-neutral dark:prose-invert max-w-none">
+      <slot />
+    </div>
+
+    {data.tested_on && data.tested_on.length > 0 && (
+      <section class="mt-10 border-t pt-6">
+        <h2 class="font-serif text-xl mb-3">Tested on</h2>
+        <ul class="space-y-2 text-sm">
+          {data.tested_on.map((t) => (
+            <li><strong>{t.date}</strong> — {t.sessions} sessions. {t.note}</li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {data.source && (
+      <p class="mt-8 text-sm text-gray-500">
+        Source: {data.source_url ? <a href={data.source_url} class="underline">{data.source}</a> : data.source}
+      </p>
+    )}
+
+    {data.contributor && (
+      <p class="mt-2 text-sm text-gray-500">Contributed by <a href={`https://github.com/${data.contributor}`} class="underline">@{data.contributor}</a></p>
+    )}
+
+    <footer class="mt-12 pt-6 border-t text-sm text-gray-500">
+      <a href={`https://github.com/Rogue899/hookbook/edit/main/src/content/recipes/${data.category}/${data.slug}.md`} class="underline">Edit this recipe on GitHub</a>
+    </footer>
+  </article>
+</BaseLayout>
