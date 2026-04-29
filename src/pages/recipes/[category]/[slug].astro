@@ -1,0 +1,23 @@
+---
+import RecipeLayout from '../../../layouts/RecipeLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map((r) => ({
+    params: { category: r.data.category, slug: r.data.slug },
+    props: { recipe: r },
+  }));
+}
+
+const { recipe } = Astro.props;
+const { Content } = await render(recipe);
+
+// Extract the first JSON code block as the snippet, if present
+const body = recipe.body || '';
+const snippetMatch = body.match(/```(?:json|jsonc)\n([\s\S]*?)```/);
+const snippet = snippetMatch ? snippetMatch[1].trim() : '';
+---
+<RecipeLayout recipe={recipe} snippet={snippet}>
+  <Content />
+</RecipeLayout>

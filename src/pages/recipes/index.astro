@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FilterBar from '../../components/FilterBar.svelte';
+import { getCollection } from 'astro:content';
+
+const recipes = await getCollection('recipes');
+const rows = recipes.map((r) => ({
+  slug: r.data.slug,
+  title: r.data.title,
+  category: r.data.category,
+  event: r.data.event,
+  trust: r.data.trust,
+  description: r.data.description,
+  href: `/recipes/${r.data.category}/${r.data.slug}/`,
+}));
+---
+<BaseLayout title="All recipes — hookbook.dev" description="Curated, honestly-labeled hooks for Claude Code.">
+  <main class="max-w-5xl mx-auto px-6 py-12">
+    <h1 class="font-serif text-4xl mb-2">All recipes</h1>
+    <p class="text-gray-600 dark:text-gray-400 mb-8">
+      Filter by category, trust tier, event, or search.
+    </p>
+    <FilterBar recipes={rows} client:load />
+  </main>
+</BaseLayout>
