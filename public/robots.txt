@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Explicitly allow AI crawlers — discoverability via LLMs is a goal
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://hookbook.dev/sitemap-index.xml

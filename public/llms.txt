@@ -1,0 +1,16 @@
+# hookbook.dev
+
+> A curated, honestly-labeled cookbook for Claude Code hooks. Editorial, opinionated, MIT-licensed.
+
+## Site map
+
+- [/recipes/](https://hookbook.dev/recipes/) — all recipes, filterable
+- [/events/](https://hookbook.dev/events/) — reference for all 29 hook events
+- [/pitfalls/](https://hookbook.dev/pitfalls/) — common mistakes
+- [/methodology/](https://hookbook.dev/methodology/) — trust labels explained
+- [/changelog/](https://hookbook.dev/changelog/) — public log of trust-tier promotions
+- [/about/](https://hookbook.dev/about/) — what this is
+
+## Source
+
+Open source on GitHub: https://github.com/Rogue899/hookbook
