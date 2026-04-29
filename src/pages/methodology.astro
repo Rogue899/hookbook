@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Methodology — hookbook.dev">
+  <main class="max-w-3xl mx-auto px-6 py-12 prose prose-neutral dark:prose-invert">
+    <h1>Methodology</h1>
+
+    <h2>Trust labels</h2>
+    <p>Every recipe is labeled with one of four trust tiers:</p>
+    <ul>
+      <li><strong>🟢 Tested</strong> — I've personally run it in my own workflow for at least one session, with a dated <code>tested_on</code> entry.</li>
+      <li><strong>🟡 Experimental</strong> — Installed but not yet proven under real load. The default for new authoring and incoming PRs.</li>
+      <li><strong>🔵 From source</strong> — Verbatim from Anthropic docs, Boris Cherny's public config, or a cited community source. Not yet tested by me.</li>
+      <li><strong>⚠️ Theoretical</strong> — Should work per docs, but I haven't run it yet. Edge cases possible.</li>
+    </ul>
+
+    <h2>Why this matters</h2>
+    <p>Most awesome-lists pretend everything works. This one doesn't. The labels exist because honesty is more useful than overclaiming production experience I don't have.</p>
+
+    <h2>How recipes get promoted</h2>
+    <p>I run a recipe in my own workflow. After a session that proves it doesn't break things, I update the trust label and add a <code>tested_on</code> entry. The trajectory itself is content: the changelog tracks every promotion.</p>
+
+    <h2>Contributions</h2>
+    <p>PRs are auto-downgraded to <strong>experimental</strong> on merge regardless of what the contributor claims. I promote to <strong>tested</strong> only after personal verification. This protects the brand and keeps the labels honest.</p>
+
+    <h2>What you should expect</h2>
+    <ul>
+      <li>Recipes will get more reliable over time as the trust labels mature.</li>
+      <li>I will document failures, not just successes.</li>
+      <li>Source attribution is required for from-source entries.</li>
+    </ul>
+  </main>
+</BaseLayout>

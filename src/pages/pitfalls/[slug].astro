@@ -1,0 +1,13 @@
+---
+import PitfallLayout from '../../layouts/PitfallLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const pitfalls = await getCollection('pitfalls');
+  return pitfalls.map((p) => ({ params: { slug: p.data.slug }, props: { pitfall: p } }));
+}
+
+const { pitfall } = Astro.props;
+const { Content } = await render(pitfall);
+---
+<PitfallLayout pitfall={pitfall}><Content /></PitfallLayout>

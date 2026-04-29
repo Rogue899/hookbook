@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+const pitfalls = await getCollection('pitfalls');
+---
+<BaseLayout title="Common pitfalls — hookbook.dev">
+  <main class="max-w-3xl mx-auto px-6 py-12">
+    <h1 class="font-serif text-4xl mb-2">Common pitfalls</h1>
+    <p class="text-gray-600 dark:text-gray-400 mb-8">Mistakes everyone makes. Don't be everyone.</p>
+    <ul class="space-y-4">
+      {pitfalls.sort((a, b) => a.data.title.localeCompare(b.data.title)).map((p) => (
+        <li>
+          <a href={`/pitfalls/${p.data.slug}/`} class="block">
+            <h2 class="font-serif text-xl mb-1">{p.data.title}</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{p.data.description}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>
