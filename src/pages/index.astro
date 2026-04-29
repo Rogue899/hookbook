@@ -1,16 +1,66 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TrustBadge from '../components/TrustBadge.svelte';
+import { getCollection } from 'astro:content';
+
+const recipes = await getCollection('recipes');
+const featured = recipes.filter((r) => r.data.viral === true).slice(0, 3);
+const recent = (await getCollection('changelog')).sort((a, b) => b.data.date.localeCompare(a.data.date)).slice(0, 5);
 ---
-<BaseLayout title="hookbook.dev">
-  <main class="max-w-3xl mx-auto p-8">
-    <h1 class="text-4xl mb-4">hookbook.dev</h1>
-    <p>Coming soon — a curated, honestly-labeled cookbook for Claude Code hooks.</p>
-    <div class="mt-4 flex gap-2">
-      <TrustBadge trust="tested" />
-      <TrustBadge trust="experimental" />
-      <TrustBadge trust="from-source" />
-      <TrustBadge trust="theoretical" />
-    </div>
+<BaseLayout title="hookbook.dev — Curated Claude Code hooks" description="A curated, honestly-labeled cookbook for Claude Code hooks. 29 events. Trust labels. No overclaiming.">
+  <main class="max-w-3xl mx-auto px-6 py-16">
+    <header class="mb-12">
+      <h1 class="font-serif text-5xl mb-4">hookbook.dev</h1>
+      <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
+        Anthropic documents <strong>29 hook events</strong> for Claude Code. Most tutorials cover 6.
+        Here's all of them — with trust labels, pitfalls, and recipes that have been tested (or honestly haven't been yet).
+      </p>
+      <div class="mt-6 flex flex-wrap gap-4 text-sm">
+        <a href="/recipes/" class="underline">Browse all recipes</a>
+        <a href="/events/" class="underline">Event reference</a>
+        <a href="/pitfalls/" class="underline">Common pitfalls</a>
+        <a href="/methodology/" class="underline">Methodology</a>
+      </div>
+    </header>
+
+    {featured.length > 0 && (
+      <section class="mb-12">
+        <h2 class="font-serif text-2xl mb-4">Featured recipes</h2>
+        <ul class="space-y-3">
+          {featured.map((r) => (
+            <li>
+              <a href={`/recipes/${r.data.category}/${r.data.slug}/`} class="block hover:underline">
+                <h3 class="font-serif text-lg">{r.data.title}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{r.data.description}</p>
+                <div class="mt-1"><TrustBadge trust={r.data.trust} client:load /></div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {recent.length > 0 && (
+      <section class="mb-12">
+        <h2 class="font-serif text-2xl mb-4">Latest changelog</h2>
+        <ul class="space-y-2 text-sm">
+          {recent.map((c) => (
+            <li class="flex gap-3">
+              <span class="font-mono text-gray-500 shrink-0">{c.data.date}</span>
+              <span>{c.data.title}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-3"><a href="/changelog/" class="underline text-sm">All changelog →</a></p>
+      </section>
+    )}
+
+    <section class="border-t pt-8">
+      <h2 class="font-serif text-2xl mb-4">What is this?</h2>
+      <p class="leading-relaxed text-gray-700 dark:text-gray-300">
+        A curated reference for Claude Code hooks, with honest trust labels (🟢 tested, 🟡 experimental, 🔵 from-source, ⚠️ theoretical).
+        MIT licensed. PRs welcome. <a href="/about/" class="underline">More</a>.
+      </p>
+    </section>
   </main>
 </BaseLayout>
