@@ -1,0 +1,38 @@
+@import 'tailwindcss';
+
+:root {
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+  --color-text: rgb(17, 24, 39);
+  --color-text-muted: rgb(112, 112, 112);
+  --color-code-bg: rgba(238, 238, 238, 0.5);
+  --color-bg: rgb(255, 255, 255);
+  --color-accent: rgb(180, 100, 40);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: rgb(229, 231, 235);
+    --color-text-muted: rgb(156, 163, 175);
+    --color-code-bg: rgba(31, 41, 55, 0.5);
+    --color-bg: rgb(17, 24, 39);
+  }
+}
+
+html {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  color: var(--color-text);
+}
+
+code, pre {
+  font-family: var(--font-mono);
+  background: var(--color-code-bg);
+}
