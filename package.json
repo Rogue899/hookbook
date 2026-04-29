@@ -11,7 +11,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "lhci": "lhci"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
@@ -23,6 +24,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "@tailwindcss/typography": "^0.5.19",
     "pagefind": "^1.5.2",
     "rehype-autolink-headings": "^7.1.0",
