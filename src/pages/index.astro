@@ -1,9 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import TrustBadge from '../components/TrustBadge.svelte';
 ---
-<BaseLayout title="hookbook.dev" description="A curated, honestly-labeled cookbook for Claude Code hooks.">
+<BaseLayout title="hookbook.dev">
   <main class="max-w-3xl mx-auto p-8">
     <h1 class="text-4xl mb-4">hookbook.dev</h1>
     <p>Coming soon — a curated, honestly-labeled cookbook for Claude Code hooks.</p>
+    <div class="mt-4 flex gap-2">
+      <TrustBadge trust="tested" />
+      <TrustBadge trust="experimental" />
+      <TrustBadge trust="from-source" />
+      <TrustBadge trust="theoretical" />
+    </div>
   </main>
 </BaseLayout>
