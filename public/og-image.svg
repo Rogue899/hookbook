@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" fill="none">
+  <rect width="1200" height="630" fill="#111827"/>
+  <text x="100" y="250" font-family="Georgia, serif" font-size="72" font-weight="400" fill="#E5E7EB">hookbook.dev</text>
+  <text x="100" y="340" font-family="system-ui, sans-serif" font-size="32" fill="#9CA3AF">A curated, honestly-labeled cookbook</text>
+  <text x="100" y="385" font-family="system-ui, sans-serif" font-size="32" fill="#9CA3AF">for Claude Code hooks.</text>
+  <text x="100" y="470" font-family="system-ui, sans-serif" font-size="24" fill="#B46428">29 events · Trust labels · MIT licensed</text>
+  <rect x="100" y="510" width="60" height="4" rx="2" fill="#B46428"/>
+</svg>
