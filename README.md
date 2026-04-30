@@ -1,5 +1,11 @@
 # hookbook.dev
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
+[![Recipes](https://img.shields.io/badge/recipes-12-orange.svg)](https://hookbook.dev/recipes/)
+[![Events](https://img.shields.io/badge/events-8%2F29-yellow.svg)](https://hookbook.dev/events/)
+[![Pitfalls](https://img.shields.io/badge/pitfalls-5-red.svg)](https://hookbook.dev/pitfalls/)
+
 > A curated, honestly-labeled cookbook for Claude Code hooks. 29 events. Trust labels. No overclaiming.
 
 **Live site:** [hookbook.dev](https://hookbook.dev)
