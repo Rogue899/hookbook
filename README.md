@@ -25,7 +25,7 @@ This repo is a curated reference closing that gap. Every recipe carries a trust 
 
 ## Contributing
 
-PRs welcome. Incoming recipes are auto-downgraded to `experimental` regardless of declared trust. The maintainer promotes to `tested` after personal verification.
+PRs welcome. New recipes require `trust: experimental` — CI will reject anything higher. The maintainer promotes to `tested` only after personal verification.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md).
 

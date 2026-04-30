@@ -21,7 +21,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p>I run a recipe in my own workflow. After a session that proves it doesn't break things, I update the trust label and add a <code>tested_on</code> entry. The trajectory itself is content: the changelog tracks every promotion.</p>
 
     <h2>Contributions</h2>
-    <p>PRs are auto-downgraded to <strong>experimental</strong> on merge regardless of what the contributor claims. I promote to <strong>tested</strong> only after personal verification. This protects the brand and keeps the labels honest.</p>
+    <p>CI requires <strong>experimental</strong> for new contributions — PRs that claim a higher trust tier are rejected. I promote to <strong>tested</strong> only after personal verification. This protects the brand and keeps the labels honest.</p>
 
     <h2>What you should expect</h2>
     <ul>

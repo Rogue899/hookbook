@@ -15,7 +15,7 @@ title: <human-readable title>
 slug: <kebab-case>
 category: <one of: git, format, quality-gate, anti-loop, context-load, observability, approval-gate, notification>
 event: <one of the hook events>
-trust: <claim whatever — CI will downgrade to experimental on merge>
+trust: experimental
 description: <20-160 chars, used for cards and meta>
 ---
 ```
@@ -27,10 +27,9 @@ description: <20-160 chars, used for cards and meta>
    - Source attribution if from-source
 
 6. Open a PR. CI will:
-   - Validate frontmatter against the Zod schema
+   - Validate frontmatter against the Zod schema (PRs must use `trust: experimental`)
    - Run unit tests
    - Run Lighthouse (perf budget enforced)
-   - Auto-downgrade your trust label to `experimental`
 
 ## Promotion to `tested`
 

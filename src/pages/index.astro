@@ -179,9 +179,8 @@ const categories = [...new Set(recipes.map((r) => r.data.category))];
         <p class="about-p">
           hookbook.dev is a curated reference for Claude Code hooks. It exists because most tutorials
           cover the same six events and skip the other twenty-one. Every recipe carries one of four
-          trust labels. PRs are auto-downgraded to <span class="font-mono text-sm" style="color: var(--ink-2);">experimental</span> on merge regardless of what the
-          contributor claims — the maintainer promotes to <span class="font-mono text-sm" style="color: var(--ink-2);">tested</span> only after running the recipe
-          personally.
+          trust labels. CI requires <span class="font-mono text-sm" style="color: var(--ink-2);">experimental</span> on new contributions — the maintainer
+          promotes to <span class="font-mono text-sm" style="color: var(--ink-2);">tested</span> only after personal verification.
         </p>
         <p class="about-p">
           It is intentionally small, intentionally honest, and intentionally not selling anything.
@@ -207,7 +206,7 @@ const categories = [...new Set(recipes.map((r) => r.data.category))];
       <div class="sidenote">
         <div class="sn-num">N.B. 03</div>
         <h4>Contributing</h4>
-        <p>PRs are auto-downgraded to experimental on merge. The maintainer promotes to tested after personal verification.</p>
+        <p>CI requires <code>trust: experimental</code> for new contributions. The maintainer promotes to tested only after personal verification.</p>
         <a href="https://github.com/Rogue899/hookbook/blob/main/CONTRIBUTING.md">CONTRIBUTING.md &rarr;</a>
       </div>
     </aside>

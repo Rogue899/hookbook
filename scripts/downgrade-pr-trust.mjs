@@ -1,3 +1,8 @@
+/**
+ * Validates that all recipe files changed in this PR use `trust: experimental`.
+ * CI will reject any PR that claims a higher trust tier — promotion to `tested`
+ * is a manual step done by the maintainer after personal verification.
+ */
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
