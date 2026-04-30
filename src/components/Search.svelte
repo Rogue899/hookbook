@@ -6,8 +6,26 @@
   let pagefind = $state<any>(null);
   let open = $state(false);
 
+  // DOM-parser-based allowlist sanitizer. Pagefind emits <mark> wrappers around
+  // matched terms; everything else gets stripped to its text content. All
+  // attributes on <mark> are dropped (so `<mark onclick=...>` cannot survive).
+  // Robust against malformed input and future Pagefind output shape changes.
   function sanitizeExcerpt(html: string): string {
-    return html.replace(/<(?!\/?mark\b)[^>]*>/gi, '');
+    if (typeof window === 'undefined') return '';
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const escapeText = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const walk = (node: Node): string => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return escapeText(node.nodeValue ?? '');
+      }
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const el = node as Element;
+        const inner = Array.from(el.childNodes).map(walk).join('');
+        return el.tagName.toLowerCase() === 'mark' ? `<mark>${inner}</mark>` : inner;
+      }
+      return '';
+    };
+    return Array.from(doc.body.childNodes).map(walk).join('');
   }
 
   onMount(async () => {
