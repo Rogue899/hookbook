@@ -1,5 +1,6 @@
 ---
 import Search from './Search.svelte';
+import MobileMenu from './MobileMenu.svelte';
 const navItems = [
   { href: '/recipes/', label: 'Recipes' },
   { href: '/events/', label: 'Events' },
@@ -25,7 +26,8 @@ const current = Astro.url.pathname;
     </nav>
     <div class="flex items-center gap-4">
       <Search client:load />
-      <a href="https://github.com/Rogue899/hookbook" rel="me noopener" class="text-sm hover:text-[var(--color-accent)]" aria-label="View source on GitHub">GitHub →</a>
+      <a href="https://github.com/Rogue899/hookbook" rel="me noopener" class="hidden sm:inline text-sm hover:text-[var(--color-accent)]" aria-label="View source on GitHub">GitHub →</a>
+      <MobileMenu items={navItems} current={current} client:load />
     </div>
   </div>
 </header>
