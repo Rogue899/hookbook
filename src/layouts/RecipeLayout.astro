@@ -44,7 +44,7 @@ const { data } = recipe;
     </div>
 
     {data.tested_on && data.tested_on.length > 0 && (
-      <section class="mt-10 border-t pt-6">
+      <section class="mt-10 pt-6" style="border-top: 1px solid var(--rule);">
         <h2 class="font-serif text-xl mb-3">Tested on</h2>
         <ul class="space-y-2 text-sm">
           {data.tested_on.map((t) => (
@@ -64,7 +64,7 @@ const { data } = recipe;
       <p class="mt-2 text-sm" style="color: var(--muted);">Contributed by <a href={`https://github.com/${data.contributor}`} class="underline">@{data.contributor}</a></p>
     )}
 
-    <footer class="mt-12 pt-6 border-t text-sm" style="color: var(--muted);">
+    <footer class="mt-12 pt-6 text-sm" style="border-top: 1px solid var(--rule); color: var(--muted);">
       <a href={`https://github.com/Rogue899/hookbook/edit/main/src/content/recipes/${data.category}/${data.slug}.md`} class="underline">Edit this recipe on GitHub</a>
     </footer>
   </article>

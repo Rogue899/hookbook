@@ -47,7 +47,7 @@ const matchingRecipes = allRecipes.filter((r) => r.data.event === data.name);
 
     <div class="prose max-w-none mb-8"><slot /></div>
 
-    <section class="border-t pt-6">
+    <section class="pt-6" style="border-top: 1px solid var(--rule);">
       <h2 class="font-serif text-xl mb-4">Recipes that use this event</h2>
       {matchingRecipes.length === 0 ? (
         <p style="color: var(--muted);">No recipes yet — be the first to contribute one.</p>
