@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@lhci/cli": "^0.15.1",
+    "@resvg/resvg-js": "^2.6.2",
     "@tailwindcss/typography": "^0.5.19",
     "pagefind": "^1.5.2",
     "rehype-autolink-headings": "^7.1.0",
