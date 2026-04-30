@@ -6,11 +6,24 @@
   let pagefind = $state<any>(null);
   let open = $state(false);
 
+  function sanitizeExcerpt(html: string): string {
+    return html.replace(/<(?!\/?mark\b)[^>]*>/gi, '');
+  }
+
   onMount(async () => {
     if (typeof window === 'undefined') return;
-    // @ts-ignore — pagefind is a runtime-fetched JS module
-    pagefind = await import('/pagefind/pagefind.js');
-    await pagefind.init();
+    try {
+      // Pagefind index is generated at build time (`pagefind --site dist`).
+      // The path is a runtime URL — `@vite-ignore` tells Vite not to try to
+      // resolve it at build/dev time. In dev (no build yet), this gracefully
+      // fails to fetch and search stays disabled.
+      const url = '/pagefind/pagefind.js';
+      pagefind = await import(/* @vite-ignore */ url);
+      await pagefind.init();
+    } catch (e) {
+      // Dev mode without a build, or first load before pagefind ran. No-op.
+      console.info('Pagefind not yet available; run `pnpm build` to generate the index.');
+    }
   });
 
   async function search() {
@@ -51,7 +64,7 @@
         <li>
           <a href={r.url} class="block px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-900 border-b border-gray-100 dark:border-gray-800 last:border-0">
             <div class="font-medium text-sm">{r.meta.title}</div>
-            <div class="text-xs text-gray-600 dark:text-gray-400">{@html r.excerpt}</div>
+            <div class="text-xs text-gray-600 dark:text-gray-400">{@html sanitizeExcerpt(r.excerpt)}</div>
           </a>
         </li>
       {/each}
