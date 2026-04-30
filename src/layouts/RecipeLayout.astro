@@ -2,6 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import TrustBadge from '../components/TrustBadge.svelte';
 import CopyButton from '../components/CopyButton.svelte';
+import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -11,8 +12,25 @@ interface Props {
 
 const { recipe, snippet = '' } = Astro.props;
 const { data } = recipe;
+
+const allRecipes = await getCollection('recipes');
+const related = (data.related_recipes || [])
+  .map((slug) => allRecipes.find((r) => r.data.slug === slug))
+  .filter((r): r is CollectionEntry<'recipes'> => Boolean(r));
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+    { '@type': 'ListItem', position: 2, name: 'Recipes', item: new URL('/recipes/', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: data.category, item: new URL(`/recipes/${data.category}/`, Astro.site).href },
+    { '@type': 'ListItem', position: 4, name: data.title, item: new URL(`/recipes/${data.category}/${data.slug}/`, Astro.site).href },
+  ],
+};
 ---
 <BaseLayout title={`${data.title} — hookbook.dev`} description={data.description} ogType="article">
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />
   <article class="max-w-3xl mx-auto px-6 py-12">
     <nav class="text-sm mb-6" style="color: var(--muted);">
       <a href="/recipes/" class="hover:text-[var(--accent)]">Recipes</a>
@@ -62,6 +80,22 @@ const { data } = recipe;
 
     {data.contributor && (
       <p class="mt-2 text-sm" style="color: var(--muted);">Contributed by <a href={`https://github.com/${data.contributor}`} class="underline">@{data.contributor}</a></p>
+    )}
+
+    {related.length > 0 && (
+      <aside class="related-recipes mt-12 pt-6" style="border-top: 1px solid var(--rule);" aria-label="Related recipes">
+        <h2 class="font-serif text-xl mb-4">Related recipes</h2>
+        <ul class="space-y-3">
+          {related.map((r) => (
+            <li>
+              <a href={`/recipes/${r.data.category}/${r.data.slug}/`} class="block group" style="border-bottom: 0;">
+                <span class="block font-serif text-base group-hover:text-[var(--accent)] transition-colors" style="color: var(--ink);">{r.data.title}</span>
+                <span class="block text-sm mt-0.5" style="color: var(--muted);">{r.data.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
     )}
 
     <footer class="mt-12 pt-6 text-sm" style="border-top: 1px solid var(--rule); color: var(--muted);">

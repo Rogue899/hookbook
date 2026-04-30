@@ -9,8 +9,19 @@ const { data } = event;
 
 const allRecipes = await getCollection('recipes');
 const matchingRecipes = allRecipes.filter((r) => r.data.event === data.name);
+
+const breadcrumbLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: Astro.site?.href },
+    { '@type': 'ListItem', position: 2, name: 'Events', item: new URL('/events/', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: data.name, item: new URL(`/events/${data.name.toLowerCase()}/`, Astro.site).href },
+  ],
+};
 ---
 <BaseLayout title={`${data.name} hook event — hookbook.dev`} description={data.description} ogType="article">
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbLd)} />
   <article class="max-w-3xl mx-auto px-6 py-12">
     <nav class="text-sm mb-6" style="color: var(--muted);">
       <a href="/events/" class="hover:text-[var(--accent)]">Events</a>
