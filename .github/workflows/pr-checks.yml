@@ -21,5 +21,5 @@ jobs:
       - run: pnpm build
       - name: Lighthouse CI
         run: pnpm lhci autorun
-      - name: Auto-downgrade incoming recipe trust labels
+      - name: Validate recipe trust labels
         run: node scripts/downgrade-pr-trust.mjs
