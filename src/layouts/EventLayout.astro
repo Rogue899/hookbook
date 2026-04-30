@@ -10,7 +10,7 @@ const { data } = event;
 const allRecipes = await getCollection('recipes');
 const matchingRecipes = allRecipes.filter((r) => r.data.event === data.name);
 ---
-<BaseLayout title={`${data.name} hook event — hookbook.dev`} description={data.description}>
+<BaseLayout title={`${data.name} hook event — hookbook.dev`} description={data.description} ogType="article">
   <article class="max-w-3xl mx-auto px-6 py-12">
     <nav class="text-sm mb-6" style="color: var(--muted);">
       <a href="/events/" class="hover:text-[var(--accent)]">Events</a>

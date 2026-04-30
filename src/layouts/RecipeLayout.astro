@@ -12,7 +12,7 @@ interface Props {
 const { recipe, snippet = '' } = Astro.props;
 const { data } = recipe;
 ---
-<BaseLayout title={`${data.title} — hookbook.dev`} description={data.description}>
+<BaseLayout title={`${data.title} — hookbook.dev`} description={data.description} ogType="article">
   <article class="max-w-3xl mx-auto px-6 py-12">
     <nav class="text-sm mb-6" style="color: var(--muted);">
       <a href="/recipes/" class="hover:text-[var(--accent)]">Recipes</a>

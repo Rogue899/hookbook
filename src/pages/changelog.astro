@@ -5,7 +5,7 @@ import { getCollection, render } from 'astro:content';
 const entries = (await getCollection('changelog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const entriesWithContent = await Promise.all(entries.map(async (e) => ({ entry: e, rendered: await render(e) })));
 ---
-<BaseLayout title="Changelog — hookbook.dev">
+<BaseLayout title="Changelog — hookbook.dev" description="Trust-tier promotions and site updates for hookbook.dev, in reverse chronological order.">
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-2">Changelog</h1>
     <p class="mb-8" style="color: var(--muted);">Trust-tier promotions, new recipes, site updates.</p>

@@ -6,7 +6,7 @@ const events = await getCollection('events');
 const recipes = await getCollection('recipes');
 const recipeCount = (eventName: string) => recipes.filter((r) => r.data.event === eventName).length;
 ---
-<BaseLayout title="Hook events reference — hookbook.dev">
+<BaseLayout title="Hook events reference — hookbook.dev" description="Reference for all 29 Claude Code hook events. When they fire, payloads, matchers, gotchas.">
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-2">Hook events reference</h1>
     <p class="mb-8" style="color: var(--muted);">

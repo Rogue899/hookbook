@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 const pitfalls = await getCollection('pitfalls');
 ---
-<BaseLayout title="Common pitfalls — hookbook.dev">
+<BaseLayout title="Common pitfalls — hookbook.dev" description="Common Claude Code hook mistakes — exit code confusion, wrong matchers, missing guards. Written up so you don't repeat them.">
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-2">Common pitfalls</h1>
     <p class="mb-8" style="color: var(--muted);">Mistakes everyone makes. Don't be everyone.</p>

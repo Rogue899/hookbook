@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 
 const { category, recipes } = Astro.props;
 ---
-<BaseLayout title={`${category} recipes — hookbook.dev`}>
+<BaseLayout title={`${category} recipes — hookbook.dev`} description={`${category} recipes for Claude Code — ${recipes.length} hooks in this category.`}>
   <main class="max-w-3xl mx-auto px-6 py-12">
     <nav class="text-sm mb-6" style="color: var(--muted);"><a href="/recipes/">Recipes</a></nav>
     <h1 class="font-serif text-4xl mb-6">{category} recipes</h1>

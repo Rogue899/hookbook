@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 const agents = await getCollection('agents');
 ---
-<BaseLayout title="Specialized agents — hookbook.dev">
+<BaseLayout title="Specialized agents — hookbook.dev" description="Index of agent-profile recipes for Claude Code hooks.">
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-2">Specialized agents</h1>
     <p class="mb-8" style="color: var(--muted);">
