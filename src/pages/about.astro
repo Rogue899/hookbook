@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout title="About — hookbook.dev">
-  <main class="max-w-3xl mx-auto px-6 py-12 prose prose-neutral dark:prose-invert">
+<BaseLayout title="About — hookbook.dev" description="Why hookbook.dev exists, what it is, what it isn't, and how the trust labels stay honest.">
+  <main class="max-w-3xl mx-auto px-6 py-12 prose">
     <h1>About hookbook.dev</h1>
 
     <p>hookbook.dev is a curated, honestly-labeled cookbook for <a href="https://docs.anthropic.com/en/docs/claude-code/hooks">Claude Code hooks</a>. Built by <a href="https://github.com/Rogue899">Tarek Roukoz</a> as a community contribution and ongoing operator's journal.</p>
@@ -14,7 +14,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p>An exhaustive awesome-list — those exist already and we link to them. A reference replacement for the official Anthropic docs — those are authoritative and we link to them. A subscription product — MIT licensed, no monetization, no Pro tier.</p>
 
     <h2>How to contribute</h2>
-    <p>Open a PR with your recipe. The trust label will be downgraded to <em>experimental</em> on merge. See <a href="https://github.com/Rogue899/hookbook/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
+    <p>Open a PR with your recipe using <code>trust: experimental</code> — CI rejects anything higher. The maintainer promotes to <em>tested</em> only after personal verification. See <a href="https://github.com/Rogue899/hookbook/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>.</p>
 
     <h2>Who built this</h2>
     <p>hookbook.dev is built and maintained by <a href="https://github.com/Rogue899">Tarek Roukoz</a>, a senior software engineer focused on AI systems and multi-agent orchestration. The cookbook started as personal infrastructure for his own Claude Code workflow and grew into a community contribution.</p>

@@ -6,22 +6,35 @@
   let pagefind = $state<any>(null);
   let open = $state(false);
 
+  // DOM-parser-based allowlist sanitizer. Pagefind emits <mark> wrappers around
+  // matched terms; everything else gets stripped to its text content. All
+  // attributes on <mark> are dropped (so `<mark onclick=...>` cannot survive).
+  // Robust against malformed input and future Pagefind output shape changes.
   function sanitizeExcerpt(html: string): string {
-    return html.replace(/<(?!\/?mark\b)[^>]*>/gi, '');
+    if (typeof window === 'undefined') return '';
+    const doc = new DOMParser().parseFromString(html, 'text/html');
+    const escapeText = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const walk = (node: Node): string => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return escapeText(node.nodeValue ?? '');
+      }
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const el = node as Element;
+        const inner = Array.from(el.childNodes).map(walk).join('');
+        return el.tagName.toLowerCase() === 'mark' ? `<mark>${inner}</mark>` : inner;
+      }
+      return '';
+    };
+    return Array.from(doc.body.childNodes).map(walk).join('');
   }
 
   onMount(async () => {
     if (typeof window === 'undefined') return;
     try {
-      // Pagefind index is generated at build time (`pagefind --site dist`).
-      // The path is a runtime URL — `@vite-ignore` tells Vite not to try to
-      // resolve it at build/dev time. In dev (no build yet), this gracefully
-      // fails to fetch and search stays disabled.
       const url = '/pagefind/pagefind.js';
       pagefind = await import(/* @vite-ignore */ url);
       await pagefind.init();
     } catch (e) {
-      // Dev mode without a build, or first load before pagefind ran. No-op.
       console.info('Pagefind not yet available; run `pnpm build` to generate the index.');
     }
   });
@@ -55,23 +68,99 @@
     oninput={handleInput}
     onfocus={() => (open = query.length > 0)}
     onblur={handleBlur}
-    class="rounded border border-gray-300 dark:border-gray-700 px-3 py-1.5 text-sm w-48 focus:w-64 transition-[width]"
+    class="search-input"
     aria-label="Search hookbook"
   />
   {#if open && results.length > 0}
-    <ul class="absolute right-0 top-full mt-1 w-80 max-h-96 overflow-y-auto rounded border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 shadow-lg z-50">
+    <ul class="search-results">
       {#each results as r}
         <li>
-          <a href={r.url} class="block px-3 py-2 hover:bg-gray-50 dark:hover:bg-gray-900 border-b border-gray-100 dark:border-gray-800 last:border-0">
-            <div class="font-medium text-sm">{r.meta.title}</div>
-            <div class="text-xs text-gray-600 dark:text-gray-400">{@html sanitizeExcerpt(r.excerpt)}</div>
+          <a href={r.url} class="result-item">
+            <div class="result-title">{r.meta.title}</div>
+            <div class="result-excerpt">{@html sanitizeExcerpt(r.excerpt)}</div>
           </a>
         </li>
       {/each}
     </ul>
   {:else if open && query.length > 0}
-    <div class="absolute right-0 top-full mt-1 w-80 px-3 py-2 rounded border bg-white dark:bg-gray-950 text-sm text-gray-500">
+    <div class="search-empty">
       No results for "{query}"
     </div>
   {/if}
 </div>
+
+<style>
+  .search-input {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 6px 12px;
+    width: 12rem;
+    outline: none;
+    transition: width 200ms, border-color 120ms;
+  }
+  .search-input::placeholder { color: var(--muted); }
+  .search-input:focus {
+    width: 16rem;
+    border-color: var(--accent-line);
+    background: var(--bg-elev);
+  }
+  .search-results {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    width: 20rem;
+    max-height: 24rem;
+    overflow-y: auto;
+    border-radius: 10px;
+    border: 1px solid var(--rule);
+    background: var(--bg-soft);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    z-index: 50;
+    list-style: none;
+    padding: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+  .result-item {
+    display: block;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .result-item:hover { background: var(--bg-soft-2); }
+  .result-item:last-child { border-bottom: 0; }
+  .result-title {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .result-excerpt {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .result-excerpt :global(mark) {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .search-empty {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    width: 20rem;
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--rule);
+    background: var(--bg-soft);
+    font-size: 14px;
+    color: var(--muted);
+  }
+</style>

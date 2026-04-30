@@ -1,13 +1,49 @@
 ---
 ---
-<footer class="border-t border-gray-200 dark:border-gray-800 mt-20">
-  <div class="max-w-5xl mx-auto px-6 py-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-gray-600 dark:text-gray-400">
-    <p>
-      Built by <a href="https://github.com/Rogue899" class="underline hover:text-[var(--color-accent)]">Tarek Roukoz</a>.
-      MIT licensed.
-    </p>
-    <p>
-      Companion to <a href="https://docs.anthropic.com/en/docs/claude-code/hooks" class="underline hover:text-[var(--color-accent)]" rel="noopener">Anthropic's official Claude Code hooks docs</a>.
-    </p>
+<footer style="border-top: 1px solid var(--rule); margin-top: 80px; padding: 48px 28px 56px; background: var(--bg);">
+  <div class="max-w-[1240px] mx-auto grid gap-10 text-[13px]" style="grid-template-columns: 2fr 1fr 1fr 1fr; color: var(--ink-2);">
+    <div>
+      <div class="font-serif text-lg" style="color: var(--ink);">hookbook<span style="color: var(--accent);">.</span>dev</div>
+      <p style="font-family: var(--font-sans); font-size: 13.5px; color: var(--muted); margin: 6px 0 0; max-width: 320px; line-height: 1.5;">
+        A curated, honestly-labeled cookbook for Claude Code hooks. Written and maintained by one person. Not affiliated with Anthropic.
+      </p>
+    </div>
+    <div>
+      <h5 class="text-[11px] uppercase tracking-widest mb-3" style="color: var(--muted); font-weight: 500;">Browse</h5>
+      <ul class="space-y-1.5 list-none p-0 m-0">
+        <li><a href="/recipes/" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">All recipes</a></li>
+        <li><a href="/events/" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">Events</a></li>
+        <li><a href="/pitfalls/" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">Pitfalls</a></li>
+        <li><a href="/methodology/" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">Methodology</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="text-[11px] uppercase tracking-widest mb-3" style="color: var(--muted); font-weight: 500;">Project</h5>
+      <ul class="space-y-1.5 list-none p-0 m-0">
+        <li><a href="/changelog/" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">Changelog</a></li>
+        <li><a href="/about/" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">About</a></li>
+        <li><a href="https://github.com/Rogue899/hookbook/blob/main/CONTRIBUTING.md" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">Contributing</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="text-[11px] uppercase tracking-widest mb-3" style="color: var(--muted); font-weight: 500;">Source</h5>
+      <ul class="space-y-1.5 list-none p-0 m-0">
+        <li><a href="https://github.com/Rogue899/hookbook" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">GitHub</a></li>
+        <li><a href="https://github.com/Rogue899/hookbook/blob/main/LICENSE" class="no-underline" style="color: var(--ink-2); border-bottom: 0;">MIT License</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="max-w-[1240px] mx-auto flex justify-between gap-4 flex-wrap font-mono text-[11px]" style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--rule); color: var(--muted);">
+    <span>Set in Source Serif &amp; Geist Mono. Built with Astro on Cloudflare Pages.</span>
+    <span>&copy; 2026 &middot; <a href="/privacy/" class="no-underline" style="color: var(--muted); border-bottom: 0;">Privacy</a> &middot; No newsletter &middot; <a href="https://github.com/Rogue899/hookbook" class="no-underline" style="color: var(--muted); border-bottom: 0;">Edit on GitHub</a></span>
   </div>
 </footer>
+
+<style>
+  /* Footer responsive: collapse to 2-col on mobile */
+  @media (max-width: 700px) {
+    footer > div:first-child {
+      grid-template-columns: 1fr 1fr !important;
+    }
+  }
+</style>

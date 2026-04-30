@@ -2,6 +2,27 @@
   "name": "hookbook",
   "type": "module",
   "version": "0.0.1",
+  "description": "A curated, honestly-labeled cookbook for Claude Code hooks. 29 events. Trust labels. No overclaiming.",
+  "keywords": [
+    "claude-code",
+    "claude-code-hooks",
+    "anthropic",
+    "developer-tools",
+    "agentic",
+    "cookbook",
+    "hooks",
+    "ai-coding"
+  ],
+  "homepage": "https://hookbook.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rogue899/hookbook.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Rogue899/hookbook/issues"
+  },
+  "license": "MIT",
+  "author": "Tarek Roukoz (https://github.com/Rogue899)",
   "engines": {
     "node": ">=22.12.0"
   },

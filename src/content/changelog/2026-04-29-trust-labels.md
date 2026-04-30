@@ -5,6 +5,6 @@ type: site-update
 related_recipes: []
 ---
 
-Locked the four-tier trust system: 🟢 tested, 🟡 experimental, 🔵 from-source, ⚠️ theoretical. Every recipe carries exactly one label. PRs are auto-downgraded to experimental on merge regardless of what the contributor claims.
+Locked the four-tier trust system: 🟢 tested, 🟡 experimental, 🔵 from-source, ⚠️ theoretical. Every recipe carries exactly one label. CI requires `trust: experimental` on incoming PRs; the maintainer promotes to `tested` only after personal verification.
 
 The methodology page documents the full rationale.

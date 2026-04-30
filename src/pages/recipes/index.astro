@@ -4,6 +4,7 @@ import FilterBar from '../../components/FilterBar.svelte';
 import { getCollection } from 'astro:content';
 
 const recipes = await getCollection('recipes');
+const categories = [...new Set(recipes.map((r) => r.data.category))];
 const rows = recipes.map((r) => ({
   slug: r.data.slug,
   title: r.data.title,
@@ -15,11 +16,210 @@ const rows = recipes.map((r) => ({
 }));
 ---
 <BaseLayout title="All recipes — hookbook.dev" description="Curated, honestly-labeled hooks for Claude Code.">
-  <main class="max-w-5xl mx-auto px-6 py-12">
-    <h1 class="font-serif text-4xl mb-2">All recipes</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">
-      Filter by category, trust tier, event, or search.
-    </p>
+  <main class="recipes-page">
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+      <a href="/">hookbook.dev</a>
+      <span class="bc-sep">/</span>
+      <span>recipes</span>
+    </div>
+
+    <!-- Page head -->
+    <div class="page-head">
+      <div>
+        <h1>All recipes</h1>
+        <p class="page-lede">
+          {recipes.length} recipes across {categories.length} categories. Every one carries an honest <a href="/methodology/">trust label</a>.
+          Filter by what you're trying to build, or by how much you trust it. <strong>Search is keyboard-first</strong> — press <span class="font-mono text-[13px]" style="color: var(--ink-2);">/</span> anywhere to jump to it.
+        </p>
+      </div>
+      <div class="head-stats">
+        <div class="head-stat">
+          <div class="stat-n">{recipes.length}</div>
+          <div class="stat-l">Recipes</div>
+        </div>
+        <div class="head-stat">
+          <div class="stat-n">{categories.length}</div>
+          <div class="stat-l">Categories</div>
+        </div>
+        <div class="head-stat">
+          <div class="stat-n">4</div>
+          <div class="stat-l">Trust tiers</div>
+        </div>
+      </div>
+    </div>
+
     <FilterBar recipes={rows} client:load />
+
+    <!-- Sibling-site comparison -->
+    <section class="compare-strip">
+      <div class="compare-head">
+        <div>
+          <h3>Sibling sites — same idea, different topic</h3>
+          <div class="compare-sub">Curated marketplaces for things AI agents need. Compare positioning at a glance.</div>
+        </div>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-card us">
+          <div class="cc-name">hookbook<span style="color: var(--accent);">.</span>dev</div>
+          <div class="cc-url">hookbook.dev — this site</div>
+          <p class="cc-blurb">A curated, honestly-labeled cookbook for Claude Code hooks. One author, MIT-licensed, no marketplace.</p>
+          <div class="cc-meta-row">
+            <div class="cc-kv">Topic<strong>Claude Code hooks</strong></div>
+            <div class="cc-kv">Inventory<strong>{recipes.length} recipes &middot; 29 events</strong></div>
+            <div class="cc-kv">Trust signal<strong>4-tier honest labels</strong></div>
+            <div class="cc-kv">Business model<strong>None — donate-ware</strong></div>
+          </div>
+          <span class="cc-visit-here">You are here</span>
+        </div>
+        <div class="compare-card">
+          <div class="cc-name">agensi.io</div>
+          <div class="cc-url">agensi.io — sibling reference</div>
+          <p class="cc-blurb">A marketplace for AI agent SKILL.md files. Multi-author, paid + free, security-scanned listings.</p>
+          <div class="cc-meta-row">
+            <div class="cc-kv">Topic<strong>Agent skills (SKILL.md)</strong></div>
+            <div class="cc-kv">Inventory<strong>200+ skills &middot; many creators</strong></div>
+            <div class="cc-kv">Trust signal<strong>Security scan + admin review</strong></div>
+            <div class="cc-kv">Business model<strong>20% + $0.50 per sale</strong></div>
+          </div>
+          <a class="cc-visit" href="https://www.agensi.io/" target="_blank" rel="noreferrer">Visit agensi.io &rarr;</a>
+        </div>
+      </div>
+    </section>
   </main>
 </BaseLayout>
+
+<style>
+  .recipes-page {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 36px 28px 64px;
+  }
+
+  /* Breadcrumbs */
+  .breadcrumbs {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+  .breadcrumbs a { color: var(--muted); text-decoration: none; border-bottom: 0; }
+  .breadcrumbs a:hover { color: var(--accent); }
+  .bc-sep { color: var(--muted-2); margin: 0 8px; }
+
+  /* Page head */
+  .page-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .page-head h1 {
+    font-family: var(--font-serif);
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+    color: var(--ink);
+  }
+  .page-lede {
+    font-size: 16px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    max-width: 640px;
+    margin: 0;
+  }
+  .page-lede strong { color: var(--ink); font-weight: 500; }
+  .page-lede a { color: var(--ink); border-bottom: 1px solid var(--accent-line); }
+  .head-stats { display: flex; gap: 28px; padding-bottom: 6px; }
+  .stat-n {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    font-feature-settings: "tnum";
+  }
+  .stat-l {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 6px;
+  }
+  @media (max-width: 720px) {
+    .page-head { grid-template-columns: 1fr; }
+    .page-head h1 { font-size: 40px; }
+    .head-stats { gap: 18px; }
+  }
+
+  /* Compare strip */
+  .compare-strip {
+    margin-top: 56px;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 28px 28px 24px;
+    background:
+      radial-gradient(80% 120% at 0% 0%, rgba(232,163,106,0.06), transparent 60%),
+      var(--bg-soft);
+  }
+  .compare-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .compare-head h3 {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: 22px;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .compare-sub { font-size: 13px; color: var(--muted); }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  @media (max-width: 720px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card {
+    border: 1px solid var(--rule);
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .compare-card.us {
+    border-color: var(--accent-line);
+    background: linear-gradient(180deg, rgba(232,163,106,0.05), transparent 40%), var(--bg);
+  }
+  .cc-name { font-family: var(--font-serif); font-size: 18px; color: var(--ink); margin-bottom: 4px; }
+  .cc-url { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-bottom: 14px; letter-spacing: 0.02em; }
+  .cc-blurb { font-size: 13px; color: var(--ink-2); line-height: 1.5; margin: 0 0 12px; }
+  .cc-meta-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin-bottom: 14px; }
+  .cc-kv { font-size: 12px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 6px; }
+  .cc-kv strong { display: block; color: var(--ink); font-family: var(--font-serif); font-size: 17px; font-weight: 500; margin-top: 2px; }
+  .cc-visit-here { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: auto; }
+  .cc-visit {
+    margin-top: auto;
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--rule-strong);
+    padding-bottom: 1px;
+    text-decoration: none;
+  }
+  .cc-visit:hover { color: var(--accent); border-color: var(--accent); }
+</style>

@@ -24,3 +24,9 @@ pnpm-debug.log*
 .idea/
 .env.local
 .vscode/
+
+# Claude Code session-local config (per-machine, not shared)
+.claude/
+
+# Internal planning docs (kept out of the public repo)
+docs/superpowers/

@@ -6,21 +6,21 @@ const events = await getCollection('events');
 const recipes = await getCollection('recipes');
 const recipeCount = (eventName: string) => recipes.filter((r) => r.data.event === eventName).length;
 ---
-<BaseLayout title="Hook events reference — hookbook.dev">
+<BaseLayout title="Hook events reference — hookbook.dev" description="Reference for all 29 Claude Code hook events. When they fire, payloads, matchers, gotchas.">
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-2">Hook events reference</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">
+    <p class="mb-8" style="color: var(--muted);">
       Anthropic documents 29 hook events. Most tutorials cover 6. Here's all of them.
     </p>
     <ul class="space-y-3">
       {events.sort((a, b) => a.data.name.localeCompare(b.data.name)).map((e) => (
         <li>
-          <a href={`/events/${e.data.name.toLowerCase()}/`} class="block py-2 hover:bg-gray-50 dark:hover:bg-gray-900 rounded px-2 -mx-2">
+          <a href={`/events/${e.data.name.toLowerCase()}/`} class="block py-2 hover:bg-[var(--bg-soft-2)] rounded px-2 -mx-2">
             <div class="flex items-baseline justify-between">
               <span class="font-mono">{e.data.name}</span>
-              <span class="text-xs text-gray-500">{recipeCount(e.data.name)} recipes</span>
+              <span class="text-xs" style="color: var(--muted);">{recipeCount(e.data.name)} recipes</span>
             </div>
-            <p class="text-sm text-gray-600 dark:text-gray-400">{e.data.description}</p>
+            <p class="text-sm" style="color: var(--muted);">{e.data.description}</p>
           </a>
         </li>
       ))}

@@ -8,7 +8,7 @@ labels: ['recipe', 'needs-review']
 **Recipe slug:** <kebab-case>
 **Category:** <one of git, format, quality-gate, anti-loop, context-load, observability, approval-gate, notification>
 **Event:** <hook event>
-**Claimed trust:** <will be downgraded to experimental on merge>
+**Claimed trust:** experimental  <!-- CI requires experimental; higher values will be rejected -->
 
 **Hook JSON:**
 ```json

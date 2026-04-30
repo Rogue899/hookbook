@@ -4,63 +4,509 @@ import TrustBadge from '../components/TrustBadge.svelte';
 import { getCollection } from 'astro:content';
 
 const recipes = await getCollection('recipes');
-const featured = recipes.filter((r) => r.data.viral === true).slice(0, 3);
+const events = await getCollection('events');
+const pitfalls = await getCollection('pitfalls');
+const featured = recipes.filter((r) => r.data.viral === true).slice(0, 6);
 const recent = (await getCollection('changelog')).sort((a, b) => b.data.date.localeCompare(a.data.date)).slice(0, 5);
+
+const categories = [...new Set(recipes.map((r) => r.data.category))];
 ---
 <BaseLayout title="hookbook.dev — Curated Claude Code hooks" description="A curated, honestly-labeled cookbook for Claude Code hooks. 29 events. Trust labels. No overclaiming.">
-  <main class="max-w-3xl mx-auto px-6 py-16">
-    <header class="mb-12">
-      <h1 class="font-serif text-5xl mb-4">hookbook.dev</h1>
-      <p class="text-xl text-gray-700 dark:text-gray-300 leading-relaxed">
-        Anthropic documents <strong>29 hook events</strong> for Claude Code. Most tutorials cover 6.
-        Here's all of them — with trust labels, pitfalls, and recipes that have been tested (or honestly haven't been yet).
-      </p>
-      <div class="mt-6 flex flex-wrap gap-4 text-sm">
-        <a href="/recipes/" class="underline">Browse all recipes</a>
-        <a href="/events/" class="underline">Event reference</a>
-        <a href="/pitfalls/" class="underline">Common pitfalls</a>
-        <a href="/methodology/" class="underline">Methodology</a>
+  <div class="editorial">
+    <main class="col-main">
+      <!-- Eyebrow -->
+      <div class="eyebrow">
+        Vol. 1 <span class="sep">&middot;</span> Issue 01 <span class="sep">&middot;</span> April 2026
       </div>
-    </header>
 
-    {featured.length > 0 && (
-      <section class="mb-12">
-        <h2 class="font-serif text-2xl mb-4">Featured recipes</h2>
-        <ul class="space-y-3">
-          {featured.map((r) => (
-            <li>
-              <a href={`/recipes/${r.data.category}/${r.data.slug}/`} class="block hover:underline">
-                <h3 class="font-serif text-lg">{r.data.title}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">{r.data.description}</p>
-                <div class="mt-1"><TrustBadge trust={r.data.trust} client:load /></div>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
-
-    {recent.length > 0 && (
-      <section class="mb-12">
-        <h2 class="font-serif text-2xl mb-4">Latest changelog</h2>
-        <ul class="space-y-2 text-sm">
-          {recent.map((c) => (
-            <li class="flex gap-3">
-              <span class="font-mono text-gray-500 shrink-0">{c.data.date}</span>
-              <span>{c.data.title}</span>
-            </li>
-          ))}
-        </ul>
-        <p class="mt-3"><a href="/changelog/" class="underline text-sm">All changelog →</a></p>
-      </section>
-    )}
-
-    <section class="border-t pt-8">
-      <h2 class="font-serif text-2xl mb-4">What is this?</h2>
-      <p class="leading-relaxed text-gray-700 dark:text-gray-300">
-        A curated reference for Claude Code hooks, with honest trust labels (🟢 tested, 🟡 experimental, 🔵 from-source, ⚠️ theoretical).
-        MIT licensed. PRs welcome. <a href="/about/" class="underline">More</a>.
+      <!-- Hero -->
+      <h1 class="hero-title">
+        A cookbook for <em>Claude&nbsp;Code hooks</em>, honestly labeled.
+      </h1>
+      <p class="hero-lede">
+        Anthropic documents <strong>29 hook events</strong>. Most tutorials cover six or eight.
+        This is a working reference for the rest — every recipe carries a trust label that
+        states plainly whether it was tested in production, copied from source, or merely
+        ought to work in theory.
       </p>
-    </section>
-  </main>
+
+      <!-- Byline -->
+      <div class="byline">
+        <span><strong>Maintained by</strong> Tarek (@Rogue899)</span>
+        <span><strong>License</strong> MIT</span>
+        <span><strong>Stack</strong> Astro &middot; Svelte &middot; TS</span>
+        <span><strong>Search</strong> Pagefind</span>
+      </div>
+
+      <!-- Counters -->
+      <div class="counter-row">
+        <div class="counter">
+          <div class="counter-num">29 <small>documented by Anthropic</small></div>
+          <div class="counter-lbl">Hook events</div>
+        </div>
+        <div class="counter">
+          <div class="counter-num">{events.length} <small>covered here so far</small></div>
+          <div class="counter-lbl">Events documented</div>
+        </div>
+        <div class="counter">
+          <div class="counter-num">{recipes.length} <small>across {categories.length} categories</small></div>
+          <div class="counter-lbl">Recipes shipped</div>
+        </div>
+        <div class="counter">
+          <div class="counter-num">4 <small>&middot;tested &middot;exp &middot;src &middot;theo</small></div>
+          <div class="counter-lbl">Trust tiers</div>
+        </div>
+      </div>
+
+      <!-- Trust key -->
+      <section class="trust-key">
+        <div class="trust-key-head">Trust labels — every recipe carries exactly one</div>
+        <dl class="trust-grid">
+          <div>
+            <dt><span class="trust-dot" style="background: var(--trust-tested); box-shadow: 0 0 0 2px rgba(123,192,116,0.15);"></span> Tested</dt>
+            <dd>Maintainer has run this in their own workflow for &ge;1 real session. Not just "it loaded".</dd>
+          </div>
+          <div>
+            <dt><span class="trust-dot" style="background: var(--trust-experimental); box-shadow: 0 0 0 2px rgba(229,194,106,0.15);"></span> Experimental</dt>
+            <dd>Installed and behaves on a smoke test, but not yet proven under real load.</dd>
+          </div>
+          <div>
+            <dt><span class="trust-dot" style="background: var(--trust-from-source); box-shadow: 0 0 0 2px rgba(143,180,232,0.15);"></span> From source</dt>
+            <dd>Verbatim from official Anthropic docs, Boris Cherny's repo, or a cited community source.</dd>
+          </div>
+          <div>
+            <dt><span class="trust-dot hollow" style="border-color: var(--trust-theoretical);"></span> Theoretical</dt>
+            <dd>Should work per documentation. Has not yet been executed by anyone we can confirm.</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- Featured recipes -->
+      <section>
+        <h2 class="section-heading"><span class="section-num">&sect; 01</span>Featured recipes</h2>
+        <div class="section-meta">
+          <span>Hand-picked from the {recipes.length} live recipes — sorted by editorial weight, not popularity.</span>
+          <a href="/recipes/">All {recipes.length} recipes &rarr;</a>
+        </div>
+        <div class="recipes-list">
+          {(featured.length > 0 ? featured : recipes.slice(0, 6)).map((r, i) => (
+            <a class="recipe-row" href={`/recipes/${r.data.category}/${r.data.slug}/`}>
+              <div class="r-num">{String(i + 1).padStart(2, '0')}</div>
+              <div>
+                <div class="r-title">{r.data.title}</div>
+                <p class="r-desc">{r.data.description}</p>
+                <div class="r-meta">
+                  <span>{r.data.category}</span><span class="meta-sep">&middot;</span>
+                  <span>{r.data.event}</span>
+                </div>
+              </div>
+              <div class="r-trust"><TrustBadge trust={r.data.trust} client:load /></div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- Events table -->
+      <section>
+        <h2 class="section-heading"><span class="section-num">&sect; 02</span>Event reference</h2>
+        <div class="section-meta">
+          <span>{events.length} events documented, {29 - events.length} to go.</span>
+          <a href="/events/">All 29 events &rarr;</a>
+        </div>
+        <table class="events-table">
+          <thead>
+            <tr><th>Event</th><th>Recipes</th><th>Since</th></tr>
+          </thead>
+          <tbody>
+            {events.sort((a, b) => a.data.name.localeCompare(b.data.name)).map((e) => {
+              const count = recipes.filter((r) => r.data.event === e.data.name).length;
+              return (
+                <tr>
+                  <td class="ev-name"><a href={`/events/${e.data.name.toLowerCase()}/`}>{e.data.name}</a></td>
+                  <td>{count > 0 ? count : '—'}</td>
+                  <td class="ev-since">v0.1</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Pitfalls -->
+      <section>
+        <h2 class="section-heading"><span class="section-num">&sect; 03</span>Common pitfalls</h2>
+        <div class="section-meta">
+          <span>Mistakes everyone makes — written up so you don't have to make them too.</span>
+          <a href="/pitfalls/">All pitfalls &rarr;</a>
+        </div>
+        <div class="pitfalls-grid">
+          {pitfalls.map((p, i) => (
+            <a class="pitfall-card" href={`/pitfalls/${p.data.slug}/`}>
+              <div class="pit-num">PITFALL {String(i + 1).padStart(2, '0')}</div>
+              <div class="pit-title">{p.data.title}</div>
+              <p class="pit-desc">{p.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- Changelog -->
+      {recent.length > 0 && (
+        <section>
+          <h2 class="section-heading"><span class="section-num">&sect; 04</span>Changelog</h2>
+          <div class="section-meta">
+            <span>Trust-tier promotions and site updates, in reverse chronological order.</span>
+            <a href="/changelog/">Full log &rarr;</a>
+          </div>
+          <div class="changelog-list">
+            {recent.map((c) => (
+              <a class="clog-row" href="/changelog/">
+                <div class="clog-date">{c.data.date}</div>
+                <div class="clog-title">{c.data.title}</div>
+                <div class="clog-tag">{c.data.type}</div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- About -->
+      <section style="margin-top: 64px;">
+        <h2 class="section-heading"><span class="section-num">&sect; 05</span>What this is</h2>
+        <div class="section-meta">
+          <span>A working reference, not a launchpad. No newsletter, no funnel.</span>
+        </div>
+        <p class="about-p">
+          hookbook.dev is a curated reference for Claude Code hooks. It exists because most tutorials
+          cover the same six events and skip the other twenty-one. Every recipe carries one of four
+          trust labels. CI requires <span class="font-mono text-sm" style="color: var(--ink-2);">experimental</span> on new contributions — the maintainer
+          promotes to <span class="font-mono text-sm" style="color: var(--ink-2);">tested</span> only after personal verification.
+        </p>
+        <p class="about-p">
+          It is intentionally small, intentionally honest, and intentionally not selling anything.
+          <a href="/about/" style="border-bottom: 1px solid var(--rule-strong);">More &rarr;</a>
+        </p>
+      </section>
+    </main>
+
+    <!-- Sidenotes -->
+    <aside class="col-side">
+      <div class="sidenote">
+        <div class="sn-num">N.B. 01</div>
+        <h4>Why trust labels?</h4>
+        <p>"Tested" elsewhere too often means "the README compiled". This site stakes a claim on every recipe so you know exactly how much credence to give it.</p>
+        <a href="/methodology/">Methodology &rarr;</a>
+      </div>
+      <div class="sidenote">
+        <div class="sn-num">N.B. 02</div>
+        <h4>Coverage gap</h4>
+        <p>Anthropic ships 29 events. Public tutorials average 6.4. The 22-event delta is where most of the interesting hook design lives.</p>
+        <a href="/events/">Event reference &rarr;</a>
+      </div>
+      <div class="sidenote">
+        <div class="sn-num">N.B. 03</div>
+        <h4>Contributing</h4>
+        <p>CI requires <code>trust: experimental</code> for new contributions. The maintainer promotes to tested only after personal verification.</p>
+        <a href="https://github.com/Rogue899/hookbook/blob/main/CONTRIBUTING.md">CONTRIBUTING.md &rarr;</a>
+      </div>
+    </aside>
+  </div>
 </BaseLayout>
+
+<style>
+  /* Editorial two-column layout */
+  .editorial {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 56px 28px 72px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 56px;
+  }
+  .col-main { min-width: 0; max-width: 760px; }
+  @media (max-width: 960px) {
+    .editorial { grid-template-columns: minmax(0, 1fr); }
+    .col-side { display: none; }
+  }
+
+  /* Eyebrow */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 18px;
+  }
+  .eyebrow .sep { color: var(--muted-2); margin: 0 8px; }
+
+  /* Hero */
+  .hero-title {
+    font-family: var(--font-serif) !important;
+    font-weight: 400 !important;
+    font-size: 68px;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin: 0 0 24px;
+    color: var(--ink);
+  }
+  .hero-title em { font-style: italic; color: var(--ink-2); }
+  @media (max-width: 600px) { .hero-title { font-size: 40px; } }
+
+  .hero-lede {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    margin: 0 0 28px;
+    max-width: 660px;
+  }
+  .hero-lede strong { color: var(--ink); font-weight: 500; }
+
+  /* Byline */
+  .byline {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 0;
+    margin-bottom: 40px;
+  }
+  .byline strong { color: var(--ink-2); font-weight: 500; }
+
+  /* Counters */
+  .counter-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin: 0 0 56px;
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+  }
+  @media (max-width: 600px) { .counter-row { grid-template-columns: repeat(2, 1fr); } }
+  .counter {
+    padding: 18px 18px 16px 0;
+    border-right: 1px solid var(--rule);
+  }
+  .counter:last-child { border-right: 0; }
+  .counter-num {
+    font-family: var(--font-serif);
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-feature-settings: "tnum";
+  }
+  .counter-num small {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-weight: 400;
+  }
+  .counter-lbl {
+    margin-top: 8px;
+    font-size: 11.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Trust key */
+  .trust-key {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 24px 0 26px;
+    margin: 0 0 56px;
+  }
+  .trust-key-head {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .trust-grid {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 48px;
+  }
+  @media (max-width: 600px) { .trust-grid { grid-template-columns: 1fr; } }
+  .trust-grid dt {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .trust-grid dd {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .trust-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .trust-dot.hollow {
+    background: transparent !important;
+    border: 1.5px solid;
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Section headings */
+  .section-heading {
+    font-family: var(--font-serif) !important;
+    font-weight: 400 !important;
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin: 56px 0 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    color: var(--ink);
+  }
+  .section-num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transform: translateY(-2px);
+  }
+  .section-meta {
+    font-size: 13px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 14px;
+    margin-bottom: 28px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .section-meta a {
+    color: var(--ink-2);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  /* Featured recipes list */
+  .recipes-list { display: flex; flex-direction: column; margin-bottom: 24px; }
+  .recipe-row {
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 22px;
+    padding: 22px 0 24px;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 0;
+    transition: background 120ms;
+  }
+  .recipe-row:last-child { border-bottom: 1px solid var(--rule); }
+  .recipe-row:hover { background: var(--bg-soft); }
+  .recipe-row:hover .r-title { color: var(--accent); }
+  .r-num { font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); padding-top: 6px; }
+  .r-title { font-family: var(--font-serif); font-size: 22px; font-weight: 500; line-height: 1.2; color: var(--ink); margin: 0 0 6px; letter-spacing: -0.005em; transition: color 120ms; }
+  .r-desc { font-size: 14.5px; line-height: 1.55; color: var(--ink-2); margin: 0 0 10px; }
+  .r-meta { display: flex; flex-wrap: wrap; gap: 10px; font-family: var(--font-mono); font-size: 11.5px; color: var(--muted); align-items: center; }
+  .meta-sep { color: var(--muted-2); }
+  .r-trust { padding-top: 4px; }
+
+  /* Events table */
+  .events-table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 0 0 24px; }
+  .events-table th {
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 10px 14px 10px 0;
+    border-bottom: 1px solid var(--ink-2);
+  }
+  .events-table th:last-child { padding-right: 0; text-align: right; }
+  .events-table td {
+    padding: 12px 14px 12px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    color: var(--ink-2);
+  }
+  .events-table td:last-child { padding-right: 0; text-align: right; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .events-table tr:hover td { background: var(--bg-soft); }
+  .ev-name { font-family: var(--font-mono); font-size: 13px; color: var(--ink); }
+  .ev-name a { color: var(--ink); border-bottom: 0; }
+  .ev-name a:hover { color: var(--accent); }
+
+  /* Pitfalls grid */
+  .pitfalls-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  @media (max-width: 700px) { .pitfalls-grid { grid-template-columns: 1fr; } }
+  .pitfall-card {
+    padding: 22px 24px 22px 0;
+    border-bottom: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+    color: inherit;
+    display: block;
+    text-decoration: none;
+  }
+  .pitfall-card:nth-child(2n) { padding-right: 0; padding-left: 24px; border-right: 0; }
+  @media (max-width: 700px) {
+    .pitfall-card, .pitfall-card:nth-child(2n) { padding: 22px 0; border-right: 0; }
+  }
+  .pitfall-card:hover .pit-title { color: var(--accent); }
+  .pit-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); letter-spacing: 0.04em; }
+  .pit-title { font-family: var(--font-serif); font-size: 19px; font-weight: 500; margin: 6px 0 6px; line-height: 1.25; color: var(--ink); transition: color 120ms; }
+  .pit-desc { font-size: 14.5px; line-height: 1.55; color: var(--ink-2); margin: 0; }
+
+  /* Changelog */
+  .changelog-list { display: flex; flex-direction: column; border-top: 1px solid var(--rule); }
+  .clog-row {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 22px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    color: inherit;
+    text-decoration: none;
+  }
+  .clog-row:hover .clog-title { color: var(--accent); }
+  .clog-date { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .clog-title { font-family: var(--font-serif); font-size: 17px; color: var(--ink); transition: color 120ms; }
+  .clog-tag { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+
+  /* About */
+  .about-p { font-size: 17px; line-height: 1.65; color: var(--ink-2); max-width: 660px; margin: 0 0 18px; }
+
+  /* Sidenotes */
+  .col-side { font-size: 13px; color: var(--muted); padding-top: 160px; }
+  .sidenote {
+    border-left: 1px solid var(--rule);
+    padding: 4px 0 4px 18px;
+    margin-bottom: 32px;
+  }
+  .sn-num { font-family: var(--font-mono); font-size: 11px; color: var(--accent); margin-bottom: 4px; }
+  .sidenote h4 { font-family: var(--font-serif); font-size: 16px; font-weight: 500; margin: 0 0 6px; color: var(--ink); }
+  .sidenote p { margin: 0 0 8px; color: var(--ink-2); line-height: 1.5; }
+  .sidenote a { font-size: 12px; color: var(--ink-2); border-bottom: 1px solid var(--rule-strong); text-decoration: none; }
+  .sidenote a:hover { color: var(--accent); border-color: var(--accent); }
+</style>

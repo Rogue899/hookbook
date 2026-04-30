@@ -5,19 +5,19 @@ import { getCollection, render } from 'astro:content';
 const entries = (await getCollection('changelog')).sort((a, b) => b.data.date.localeCompare(a.data.date));
 const entriesWithContent = await Promise.all(entries.map(async (e) => ({ entry: e, rendered: await render(e) })));
 ---
-<BaseLayout title="Changelog — hookbook.dev">
+<BaseLayout title="Changelog — hookbook.dev" description="Trust-tier promotions and site updates for hookbook.dev, in reverse chronological order.">
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-2">Changelog</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">Trust-tier promotions, new recipes, site updates.</p>
+    <p class="mb-8" style="color: var(--muted);">Trust-tier promotions, new recipes, site updates.</p>
     <ul class="space-y-8">
       {entriesWithContent.map(({ entry, rendered: { Content } }) => (
         <li>
           <div class="flex items-baseline gap-3 mb-2">
-            <span class="font-mono text-sm text-gray-500">{entry.data.date}</span>
-            <span class="text-xs uppercase tracking-wide text-gray-400">{entry.data.type}</span>
+            <span class="font-mono text-sm" style="color: var(--muted);">{entry.data.date}</span>
+            <span class="text-xs uppercase tracking-wide" style="color: var(--muted);">{entry.data.type}</span>
           </div>
           <h2 class="font-serif text-xl mb-2">{entry.data.title}</h2>
-          <div class="prose prose-neutral dark:prose-invert max-w-none"><Content /></div>
+          <div class="prose max-w-none"><Content /></div>
         </li>
       ))}
     </ul>
