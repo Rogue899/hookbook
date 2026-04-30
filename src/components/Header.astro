@@ -14,7 +14,7 @@ const current = Astro.url.pathname;
 <header class="sticky top-0 z-50" style="border-bottom: 1px solid var(--rule); background: rgba(20,19,15,0.85); backdrop-filter: saturate(160%) blur(8px);">
   <div class="max-w-[1240px] mx-auto flex items-center gap-6" style="padding: 14px 28px;">
     <a href="/" class="font-serif text-xl font-medium no-underline" style="color: var(--ink); border-bottom: 0; display: inline-flex; align-items: baseline; gap: 4px; letter-spacing: -0.02em;">hookbook<span style="color: var(--accent);">.</span>dev</a>
-    <nav class="hidden sm:flex items-center gap-1 ml-4">
+    <nav class="hidden sm:flex items-center gap-1 ml-4" aria-label="Main navigation">
       {navItems.map((item) => (
         <a
           href={item.href}

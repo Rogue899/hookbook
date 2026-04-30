@@ -21,10 +21,10 @@
 </button>
 
 {#if open}
-  <div
+  <nav
     class="mobile-drawer sm:hidden"
     onclick={() => (open = false)}
-    role="navigation"
+    aria-label="Mobile navigation"
   >
     <ul>
       {#each items as item}
@@ -38,7 +38,7 @@
         </li>
       {/each}
     </ul>
-  </div>
+  </nav>
 {/if}
 
 <style>
