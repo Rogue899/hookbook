@@ -62,7 +62,23 @@ const recipes = defineCollection({
       )
       .optional(),
     platform: z.array(z.enum(['macos', 'linux', 'windows'])).optional(),
-  }),
+  })
+    .superRefine((data, ctx) => {
+      if (data.trust === 'tested' && (!data.tested_on || data.tested_on.length === 0)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'tested recipes must have at least one tested_on entry with date + sessions + note',
+          path: ['tested_on'],
+        });
+      }
+      if (data.trust === 'from-source' && !data.source) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'from-source recipes must cite their source via the source field',
+          path: ['source'],
+        });
+      }
+    }),
 });
 
 const events = defineCollection({
