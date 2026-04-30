@@ -54,6 +54,10 @@ const ogImage = new URL('/og-image.png', Astro.site).href;
       'query-input': 'required name=search_term_string',
     },
   })} />
+
+  {import.meta.env.PROD && (
+    <script defer data-domain="hookbook.dev" src="https://plausible.io/js/script.js"></script>
+  )}
 </head>
 <body class="flex flex-col min-h-screen">
   <a href="#main-content" class="skip-link">Skip to content</a>
