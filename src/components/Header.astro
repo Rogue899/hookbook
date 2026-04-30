@@ -11,22 +11,36 @@ const navItems = [
 ];
 const current = Astro.url.pathname;
 ---
-<header class="border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50 bg-white/90 dark:bg-gray-950/90 backdrop-blur">
-  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-    <a href="/" class="font-serif text-xl font-medium hover:text-[var(--color-accent)] transition-colors">hookbook.dev</a>
-    <nav class="hidden sm:flex items-center gap-5 text-sm">
+<header class="sticky top-0 z-50" style="border-bottom: 1px solid var(--rule); background: rgba(20,19,15,0.85); backdrop-filter: saturate(160%) blur(8px);">
+  <div class="max-w-[1240px] mx-auto flex items-center gap-6" style="padding: 14px 28px;">
+    <a href="/" class="font-serif text-xl font-medium no-underline" style="color: var(--ink); border-bottom: 0; display: inline-flex; align-items: baseline; gap: 4px; letter-spacing: -0.02em;">hookbook<span style="color: var(--accent);">.</span>dev</a>
+    <nav class="hidden sm:flex items-center gap-1 ml-4">
       {navItems.map((item) => (
         <a
           href={item.href}
-          class:list={['hover:text-[var(--color-accent)] transition-colors', { 'text-[var(--color-accent)] font-medium': current.startsWith(item.href) }]}
+          class:list={[
+            'text-[13.5px] rounded-md no-underline transition-colors',
+            current.startsWith(item.href)
+              ? ''
+              : ''
+          ]}
+          style={current.startsWith(item.href)
+            ? `color: var(--accent); background: var(--accent-soft); padding: 6px 10px; border-bottom: 0;`
+            : `color: var(--ink-2); padding: 6px 10px; border-bottom: 0;`}
         >
           {item.label}
         </a>
       ))}
     </nav>
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4 ml-auto">
       <Search client:load />
-      <a href="https://github.com/Rogue899/hookbook" rel="me noopener" class="hidden sm:inline text-sm hover:text-[var(--color-accent)]" aria-label="View source on GitHub">GitHub →</a>
+      <a
+        href="https://github.com/Rogue899/hookbook"
+        rel="me noopener"
+        class="hidden sm:inline-flex items-center gap-1.5 text-[13px] font-mono no-underline"
+        style="border: 1px solid var(--rule-strong); background: var(--bg-soft); color: var(--ink); padding: 6px 12px; border-radius: 6px;"
+        aria-label="View source on GitHub"
+      >GitHub →</a>
       <MobileMenu items={navItems} current={current} client:load />
     </div>
   </div>

@@ -6,17 +6,17 @@ const agents = await getCollection('agents');
 <BaseLayout title="Specialized agents — hookbook.dev">
   <main class="max-w-3xl mx-auto px-6 py-12">
     <h1 class="font-serif text-4xl mb-2">Specialized agents</h1>
-    <p class="text-gray-600 dark:text-gray-400 mb-8">
+    <p class="mb-8" style="color: var(--muted);">
       Curated subagent definitions tied to hook-driven workflows. Coming post-launch.
     </p>
     {agents.length === 0 ? (
-      <p class="text-gray-500">No agents published yet. Watch the changelog for the first batch.</p>
+      <p style="color: var(--muted);">No agents published yet. Watch the changelog for the first batch.</p>
     ) : (
       <ul class="space-y-4">
         {agents.map((a) => (
-          <li class="border-l-2 border-gray-200 dark:border-gray-800 pl-4">
+          <li class="border-l-2 pl-4" style="border-color: var(--rule);">
             <h2 class="font-serif text-xl">{a.data.name}</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400">{a.data.description}</p>
+            <p class="text-sm" style="color: var(--muted);">{a.data.description}</p>
           </li>
         ))}
       </ul>

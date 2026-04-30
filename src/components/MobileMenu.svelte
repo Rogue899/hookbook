@@ -6,7 +6,7 @@
 
 <button
   type="button"
-  class="sm:hidden p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900"
+  class="menu-toggle sm:hidden"
   onclick={() => (open = !open)}
   aria-label={open ? 'Close menu' : 'Open menu'}
   aria-expanded={open}
@@ -22,16 +22,16 @@
 
 {#if open}
   <div
-    class="sm:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 shadow-lg z-50"
+    class="mobile-drawer sm:hidden"
     onclick={() => (open = false)}
     role="navigation"
   >
-    <ul class="flex flex-col p-4 gap-3 text-sm">
+    <ul>
       {#each items as item}
         <li>
           <a
             href={item.href}
-            class="block py-2 hover:text-[var(--color-accent)] {current.startsWith(item.href) ? 'text-[var(--color-accent)] font-medium' : ''}"
+            class:active={current.startsWith(item.href)}
           >
             {item.label}
           </a>
@@ -40,3 +40,50 @@
     </ul>
   </div>
 {/if}
+
+<style>
+  .menu-toggle {
+    padding: 8px;
+    border-radius: 6px;
+    background: none;
+    border: 0;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .menu-toggle:hover { background: var(--bg-soft); }
+  .mobile-drawer {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--rule);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    z-index: 50;
+  }
+  .mobile-drawer ul {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+  }
+  .mobile-drawer a {
+    display: block;
+    padding: 8px 10px;
+    font-size: 14px;
+    color: var(--ink-2);
+    text-decoration: none;
+    border-radius: 6px;
+    border-bottom: 0;
+  }
+  .mobile-drawer a:hover {
+    color: var(--ink);
+    background: var(--bg-soft-2);
+  }
+  .mobile-drawer a.active {
+    color: var(--accent);
+    background: var(--accent-soft);
+  }
+</style>

@@ -16,8 +16,26 @@
 <button
   type="button"
   onclick={handleCopy}
-  class="rounded border border-gray-300 dark:border-gray-700 px-2 py-1 text-xs font-mono hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+  class="copy-btn"
   aria-live="polite"
 >
   {copied ? '✓ Copied' : label}
 </button>
+
+<style>
+  .copy-btn {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-2);
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: border-color 120ms, color 120ms;
+  }
+  .copy-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>

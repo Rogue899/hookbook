@@ -16,17 +16,17 @@ const { category, recipes } = Astro.props;
 ---
 <BaseLayout title={`${category} recipes — hookbook.dev`}>
   <main class="max-w-3xl mx-auto px-6 py-12">
-    <nav class="text-sm text-gray-500 mb-6"><a href="/recipes/">Recipes</a></nav>
+    <nav class="text-sm mb-6" style="color: var(--muted);"><a href="/recipes/">Recipes</a></nav>
     <h1 class="font-serif text-4xl mb-6">{category} recipes</h1>
     <ul class="space-y-4">
       {recipes.map((r) => (
-        <li class="border-l-2 border-gray-200 dark:border-gray-800 pl-4">
+        <li style="border-left: 2px solid var(--rule); padding-left: 1rem;">
           <a href={`/recipes/${r.data.category}/${r.data.slug}/`} class="block">
             <h2 class="font-serif text-xl">{r.data.title}</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">{r.data.description}</p>
+            <p class="text-sm mb-1" style="color: var(--ink-2);">{r.data.description}</p>
             <div class="flex items-center gap-2 text-xs">
               <TrustBadge trust={r.data.trust} client:load />
-              <span class="text-gray-500">{r.data.event}</span>
+              <span style="color: var(--muted);">{r.data.event}</span>
             </div>
           </a>
         </li>
