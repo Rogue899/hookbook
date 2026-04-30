@@ -31,17 +31,18 @@
       type="search"
       bind:value={query}
       placeholder="Search recipes..."
+      aria-label="Search recipes"
       class="rounded border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm"
     />
-    <select bind:value={categoryFilter} class="rounded border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm">
+    <select bind:value={categoryFilter} aria-label="Filter by category" class="rounded border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm">
       <option value="all">All categories</option>
       {#each categories as c}<option value={c}>{c}</option>{/each}
     </select>
-    <select bind:value={trustFilter} class="rounded border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm">
+    <select bind:value={trustFilter} aria-label="Filter by trust tier" class="rounded border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm">
       <option value="all">All trust tiers</option>
       {#each trusts as t}<option value={t}>{t}</option>{/each}
     </select>
-    <select bind:value={eventFilter} class="rounded border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm">
+    <select bind:value={eventFilter} aria-label="Filter by event" class="rounded border border-gray-300 dark:border-gray-700 px-3 py-2 text-sm">
       <option value="all">All events</option>
       {#each events as e}<option value={e}>{e}</option>{/each}
     </select>
