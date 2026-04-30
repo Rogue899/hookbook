@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Privacy — hookbook.dev"
+  description="What hookbook.dev collects, why, and how to opt out."
+  ogType="website"
+>
+  <main style="max-width: 720px; margin: 0 auto; padding: 64px 28px;">
+    <h1 style="font-family: var(--font-serif); font-size: 36px; line-height: 1.15; letter-spacing: -0.01em; margin: 0 0 12px; color: var(--ink);">Privacy</h1>
+    <p style="color: var(--muted); font-size: 14px; margin: 0 0 32px;">Last updated 2026-04-30. Plain-language version below the legal-feeling parts.</p>
+
+    <section style="font-family: var(--font-sans); font-size: 15.5px; line-height: 1.65; color: var(--ink-2);">
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin: 32px 0 8px;">What we collect</h2>
+      <p>Hookbook uses <a href="https://plausible.io" style="color: var(--accent); border-bottom: 1px solid var(--accent-line);">Plausible Analytics</a> to count page views and understand what content people read. Plausible is a privacy-friendly, GDPR-compliant analytics service that runs without cookies and does not track users across sites.</p>
+      <p>Specifically, Plausible records, per page view:</p>
+      <ul style="margin: 8px 0 16px 24px;">
+        <li>The URL that was visited</li>
+        <li>The referring URL (where you came from)</li>
+        <li>Browser and operating system (e.g. "Firefox on macOS")</li>
+        <li>Country (derived from your IP, then discarded — the IP itself is never stored)</li>
+        <li>Screen size category (mobile/tablet/desktop)</li>
+      </ul>
+      <p>We do <strong>not</strong> collect: your name, email, IP address, individual user identifiers, cross-site activity, or anything that would let us recognize you on a return visit.</p>
+
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin: 32px 0 8px;">Why we collect it</h2>
+      <p>To know which recipes get read and which get ignored, so editorial effort goes to the right places. The aggregate Plausible dashboard (page-view counts per URL) is the only data we look at; we never inspect anything user-level because Plausible doesn't expose user-level data to us.</p>
+
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin: 32px 0 8px;">Cookies</h2>
+      <p>Hookbook sets no cookies. Plausible sets no cookies. The browser tools you'd use to inspect this (devtools → Application → Cookies) will confirm an empty list for this domain.</p>
+
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin: 32px 0 8px;">Third parties</h2>
+      <p>The site loads fonts from <a href="https://fonts.google.com" style="color: var(--accent); border-bottom: 1px solid var(--accent-line);">Google Fonts</a> (Geist, Source Serif 4, Geist Mono). Google may log standard request data for those font fetches; we do not see it.</p>
+      <p>That's the entire third-party footprint. No social-share scripts, no embedded videos, no comment systems, no chat widgets, no ad networks.</p>
+
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin: 32px 0 8px;">How to opt out</h2>
+      <p>If you don't want Plausible counting your visits, the standard browser tools work:</p>
+      <ul style="margin: 8px 0 16px 24px;">
+        <li>Most ad blockers (uBlock Origin, AdBlock Plus, Brave Shields) block Plausible by default.</li>
+        <li>Browser tracker-protection (Firefox Strict Mode, Safari ITP) blocks it.</li>
+        <li>Plausible respects the <code>Do Not Track</code> header — if you have DNT enabled, no event fires for you.</li>
+      </ul>
+      <p>If you'd like a stronger guarantee, the source for this site is <a href="https://github.com/Rogue899/hookbook" style="color: var(--accent); border-bottom: 1px solid var(--accent-line);">on GitHub</a> — fork it and host your own copy with no analytics.</p>
+
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin: 32px 0 8px;">Plain-language version</h2>
+      <p>We count page views to know what people read. We don't know who you are, and we don't try to. No cookies, no email capture, no ads, no cross-site anything. If you don't want to be counted, an ad blocker handles it, or just don't visit.</p>
+
+      <h2 style="font-family: var(--font-serif); font-size: 22px; color: var(--ink); margin: 32px 0 8px;">Questions</h2>
+      <p>Open an <a href="https://github.com/Rogue899/hookbook/issues" style="color: var(--accent); border-bottom: 1px solid var(--accent-line);">issue on GitHub</a>.</p>
+    </section>
+  </main>
+</BaseLayout>
